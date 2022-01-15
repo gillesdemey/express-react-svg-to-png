@@ -67,7 +67,7 @@ const Graph = ({ width = 500, height = 300 }) => {
         <AxisBottom
           top={innerHeight}
           scale={xScale}
-          tickFormat={(v: Date) => v.toLocaleDateString("en-US")}
+          tickFormat={(v) => (v as Date).toLocaleDateString("en-US")}
           hideAxisLine={true}
           hideTicks={true}
         />
