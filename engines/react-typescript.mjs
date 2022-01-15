@@ -5,14 +5,16 @@ import ReactDOMServer from "react-dom/server";
 import requireFromString from "require-from-string";
 
 function createEngine() {
-  return function renderFile(filename, options, callback) {
-    renderComponentToMarkup(filename, options)
-      .then((markup) => {
-        callback(null, markup);
-      })
-      .catch(callback);
-  };
+  return renderFile;
 }
+
+const renderFile = (filename, options, callback) => {
+  renderComponentToMarkup(filename, options)
+    .then((markup) => {
+      callback(null, markup);
+    })
+    .catch(callback);
+};
 
 // TODO caching etc
 async function renderComponentToMarkup(filename, options) {
@@ -21,24 +23,18 @@ async function renderComponentToMarkup(filename, options) {
   const result = ts.transpileModule(source, {
     compilerOptions: {
       module: "commonjs",
-      jsx: "react",
+      // this way we don't have to always import React
+      // see https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
+      jsx: "react-jsx",
       esModuleInterop: true,
       allowSyntheticDefaultImports: true,
       target: "es6",
-      noImplicitAny: true,
       moduleResolution: "node",
       sourceMap: false,
-      baseUrl: ".",
-      paths: {
-        "*": ["node_modules/*", "src/types/*"],
-      },
     },
-    include: ["components/**/*"],
   });
 
-  const module = requireFromString(result.outputText, {
-    filename,
-  });
+  const module = requireFromString(result.outputText, { filename });
 
   const markup = ReactDOMServer.renderToStaticMarkup(
     React.createElement(module.default, options)

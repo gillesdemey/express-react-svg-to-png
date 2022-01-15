@@ -1,4 +1,3 @@
-import React from "react";
 import { Group } from "@visx/group";
 import { scaleTime, scaleLinear } from "@visx/scale";
 import { curveMonotoneX } from "@visx/curve";
