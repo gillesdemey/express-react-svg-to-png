@@ -23,7 +23,7 @@ import { transform } from "@swc/core";
 async function transpileWithSwc(source) {
   const result = await transform(source, {
     jsc: {
-      target: "es2020",
+      target: "es2021",
       parser: {
         syntax: "typescript",
         tsx: true,
