@@ -18,6 +18,7 @@ Visit it in your browser
 open http://localhost:8080/graph
 open http://localhost:8080/graph.svg
 open http://localhost:8080/graph.png
+open http://localhost:8080/graph.jpeg
 ```
 
 <img width="1005" alt="image" src="https://user-images.githubusercontent.com/868844/149631724-2672f54e-b211-4023-a10b-c346e354e23f.png">

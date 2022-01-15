@@ -44,7 +44,14 @@ const Graph = ({ width = 500, height = 300 }) => {
   });
 
   return (
-    <svg width={width} height={height}>
+    <svg width={width} height={height} fill="#fff">
+      <rect
+        x={0}
+        y={0}
+        width={width}
+        height={height}
+        fill="#FFF"
+      />
       <Group left={margin.left} top={margin.top}>
         <GridRows
           scale={yScale}
@@ -66,7 +73,6 @@ const Graph = ({ width = 500, height = 300 }) => {
             y={(d) => yScale(getValue(d)) ?? 0}
             strokeWidth={1}
             stroke={classicColors[index % classicColors.length]}
-            shapeRendering="geometricPrecision"
             curve={curveMonotoneX}
           />
         ))}

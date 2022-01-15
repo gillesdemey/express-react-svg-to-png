@@ -33,9 +33,23 @@ app
         return next(err);
       }
 
-      rasterizeVector(svg)
+      rasterizeVector(svg, "png")
         .then((image) => {
           res.setHeader("Content-Type", "image/png");
+          res.send(image);
+        })
+        .catch(next);
+    });
+  })
+  .get(["/graph.jpg", "/graph.jpeg"], (_req, res, next) => {
+    res.render("graph", {}, (err, svg) => {
+      if (err) {
+        return next(err);
+      }
+
+      rasterizeVector(svg, "jpeg")
+        .then((image) => {
+          res.setHeader("Content-Type", "image/jpeg");
           res.send(image);
         })
         .catch(next);

@@ -1,17 +1,13 @@
 import sharp from "sharp";
 
-function rasterizeVector(svg) {
+function rasterizeVector(svg, format) {
   const buffer = sharp(Buffer.from(svg), {
-    density: 288, // let's render at 288dpi
+    density: 144, // render at @2x for retina displays
     sequentialRead: true,
   })
-    // render 500 x 300 but at @2x resolution
-    .resize({
-      width: 1000,
-      height: 600,
-      kernel: "lanczos3", // default scaling algorithm
+    .toFormat(format, {
+      quality: 80,
     })
-    .png()
     .toBuffer();
 
   return buffer;
