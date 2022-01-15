@@ -15,6 +15,8 @@ const margin = {
   left: 36,
 };
 
+const GRID_COLOR = "rgba(0,0,0,0.1)";
+
 const Graph = ({ width = 500, height = 300 }) => {
   const series = [
     generateTimeSeries(200),
@@ -44,7 +46,7 @@ const Graph = ({ width = 500, height = 300 }) => {
   });
 
   return (
-    <svg width={width} height={height} fill="#fff">
+    <svg width={width} height={height}>
       <rect
         x={0}
         y={0}
@@ -57,13 +59,13 @@ const Graph = ({ width = 500, height = 300 }) => {
           scale={yScale}
           width={innerWidth}
           height={innerHeight}
-          stroke={"rgba(0,0,0,0.1)"}
+          stroke={GRID_COLOR}
         />
         <GridColumns
           scale={xScale}
           width={innerWidth}
           height={innerHeight}
-          stroke={"rgba(0,0,0,0.1)"}
+          stroke={GRID_COLOR}
         />
         {series.map((serie, index) => (
           <LinePath
@@ -84,7 +86,7 @@ const Graph = ({ width = 500, height = 300 }) => {
           hideTicks={true}
           numTicks={6}
         />
-        <AxisLeft scale={yScale} stroke={"rgba(0,0,0,0.1)"} hideTicks={true} />
+        <AxisLeft scale={yScale} stroke={GRID_COLOR} hideTicks={true} />
       </Group>
     </svg>
   );
