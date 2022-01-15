@@ -1,8 +1,8 @@
 import ts from "typescript";
-import { readFile } from "fs/promises";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import requireFromString from "require-from-string";
+import { readFileWithCache } from "../util/cache.mjs";
 
 function createEngine() {
   return renderFile;
@@ -16,9 +16,8 @@ const renderFile = (filename, options, callback) => {
     .catch(callback);
 };
 
-// TODO caching etc
 async function renderComponentToMarkup(filename, options) {
-  const source = await readFile(filename, "utf8");
+  const source = await readFileWithCache(filename, "utf8");
 
   const result = ts.transpileModule(source, {
     compilerOptions: {
