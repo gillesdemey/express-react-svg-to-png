@@ -1,4 +1,6 @@
 import express from "express";
+import helmet from "helmet";
+import nocache from "nocache";
 import { debuglog } from "util";
 import { rasterizeVector } from "./util/rasterize.mjs";
 import { createEngine } from "./engines/react-typescript.mjs";
@@ -10,6 +12,9 @@ const app = express()
   .set("views", "components")
   .set("view engine", "tsx")
   .engine("tsx", createEngine());
+
+app.use(helmet());
+app.use(nocache());
 
 app
   .get("/graph", (_req, res) => {
