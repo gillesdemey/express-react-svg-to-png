@@ -31,4 +31,4 @@ It's a simple express service that uses a custom `engine` (see [`engines/react-t
 1. Transform the transpiled output (a `string`) to a module
 1. Feed that module to `ReactDOMServer.renderToStaticMarkup` to receive the finalized markup – it's an SVG powered by [`visx`](https://airbnb.io/visx/).
 
-The resulting SVG is raterized to a PNG file using [`sharp`](https://sharp.pixelplumbing.com/) – see [`util/rasterize.mjs`](util/rasterize.mjs).
+The resulting SVG is rasterized to either a PNG or JPEG file using [`sharp`](https://sharp.pixelplumbing.com/) – see [`util/rasterize.mjs`](util/rasterize.mjs).
