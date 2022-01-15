@@ -2,11 +2,11 @@ import { Group } from "@visx/group";
 import { scaleTime, scaleLinear } from "@visx/scale";
 import { curveMonotoneX } from "@visx/curve";
 import { LinePath } from "@visx/shape";
-import { appleStock } from "@visx/mock-data";
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { extent } from "d3-array";
 import { GridColumns, GridRows } from "@visx/grid";
-import { AppleStock } from "@visx/mock-data/lib/mocks/appleStock";
+import { DateValue } from "@visx/mock-data/lib/generators/genDateValue";
+import { classicColors } from "@grafana/data";
 
 const margin = {
   top: 20,
@@ -16,11 +16,15 @@ const margin = {
 };
 
 const Graph = ({ width = 500, height = 300 }) => {
-  const data = appleStock;
+  const series = [
+    generateTimeSeries(200),
+    generateTimeSeries(200),
+    generateTimeSeries(200),
+  ];
 
   // accessors
-  const getDate = (d: AppleStock) => new Date(d.date);
-  const getStockValue = (d: AppleStock) => d.close;
+  const getDate = (d: DateValue) => new Date(d.date);
+  const getValue = (d: DateValue) => d.value;
 
   // bounds
   const innerWidth = width - margin.left - margin.right;
@@ -29,13 +33,13 @@ const Graph = ({ width = 500, height = 300 }) => {
   // scales
   const xScale = scaleTime({
     range: [0, innerWidth],
-    domain: extent(data, getDate),
+    domain: extent(series[0], getDate),
     nice: false,
   });
 
   const yScale = scaleLinear({
     range: [innerHeight, 0],
-    domain: extent(data, getStockValue),
+    domain: extent(series[0], getValue),
     nice: true,
   });
 
@@ -54,21 +58,25 @@ const Graph = ({ width = 500, height = 300 }) => {
           height={innerHeight}
           stroke={"rgba(0,0,0,0.1)"}
         />
-        <LinePath
-          data={data}
-          x={(d) => xScale(getDate(d)) ?? 0}
-          y={(d) => yScale(getStockValue(d)) ?? 0}
-          strokeWidth={1}
-          stroke="#7eb26e"
-          shapeRendering="geometricPrecision"
-          curve={curveMonotoneX}
-        />
+        {series.map((serie, index) => (
+          <LinePath
+            key={index}
+            data={serie}
+            x={(d) => xScale(getDate(d)) ?? 0}
+            y={(d) => yScale(getValue(d)) ?? 0}
+            strokeWidth={1}
+            stroke={classicColors[index % classicColors.length]}
+            shapeRendering="geometricPrecision"
+            curve={curveMonotoneX}
+          />
+        ))}
         <AxisBottom
           top={innerHeight}
           scale={xScale}
           tickFormat={(v) => (v as Date).toLocaleDateString("en-US")}
           hideAxisLine={true}
           hideTicks={true}
+          numTicks={6}
         />
         <AxisLeft scale={yScale} stroke={"rgba(0,0,0,0.1)"} hideTicks={true} />
       </Group>
@@ -77,3 +85,16 @@ const Graph = ({ width = 500, height = 300 }) => {
 };
 
 export default Graph;
+
+function generateTimeSeries(length) {
+  const startDateMs = Date.now();
+
+  return new Array(length).fill(1).map((_, idx) => {
+    return {
+      date: new Date(startDateMs - idx * 3600000),
+      value: 100 + Math.random() * 10,
+    };
+  });
+}
+
+export { generateTimeSeries };

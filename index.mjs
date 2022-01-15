@@ -2,11 +2,12 @@ import express from "express";
 import helmet from "helmet";
 import nocache from "nocache";
 import { debuglog } from "util";
+import pino from "express-pino-logger";
 import { rasterizeVector } from "./util/rasterize.mjs";
 import { createEngine } from "./engines/react-typescript.mjs";
 
-const PORT = 8080
-const log = debuglog("app")
+const PORT = 8080;
+const log = debuglog("app");
 
 const app = express()
   .set("views", "components")
@@ -15,6 +16,7 @@ const app = express()
 
 app.use(helmet());
 app.use(nocache());
+app.use(pino());
 
 app
   .get("/graph", (_req, res) => {
@@ -42,4 +44,3 @@ app
   .listen(PORT, () => {
     log("Listening on http://0.0.0.0:%d", PORT);
   });
-
