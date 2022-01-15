@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { jsx } from "react/jsx-runtime";
 import { renderToStaticMarkup } from "react-dom/server";
 import requireFromString from "require-from-string";
 
@@ -22,7 +22,7 @@ async function renderComponentToMarkup(filename, options) {
   const code = await transpileWithSwc(source);
 
   const module = requireFromString(code, { filename });
-  const markup = renderToStaticMarkup(createElement(module.default, options));
+  const markup = renderToStaticMarkup(jsx(module.default, options));
 
   return markup;
 }
