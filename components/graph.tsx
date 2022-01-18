@@ -3,10 +3,11 @@ import { scaleTime, scaleLinear } from "@visx/scale";
 import { curveMonotoneX } from "@visx/curve";
 import { LinePath } from "@visx/shape";
 import { AxisBottom, AxisLeft } from "@visx/axis";
+import { appleStock } from "@visx/mock-data";
 import { extent } from "d3-array";
 import { GridColumns, GridRows } from "@visx/grid";
-import { DateValue } from "@visx/mock-data/lib/generators/genDateValue";
 import { classicColors } from "@grafana/data";
+import { AppleStock } from '@visx/mock-data/lib/mocks/appleStock';
 
 const margin = {
   top: 20,
@@ -19,14 +20,12 @@ const GRID_COLOR = "rgba(0,0,0,0.1)";
 
 const Graph = ({ width = 500, height = 300 }) => {
   const series = [
-    generateTimeSeries(200),
-    generateTimeSeries(200),
-    generateTimeSeries(200),
+    appleStock
   ];
 
   // accessors
-  const getDate = (d: DateValue) => new Date(d.date);
-  const getValue = (d: DateValue) => d.value;
+  const getDate = (d: AppleStock) => new Date(d.date);
+  const getValue = (d: AppleStock) => d.close;
 
   // bounds
   const innerWidth = width - margin.left - margin.right;
@@ -67,7 +66,7 @@ const Graph = ({ width = 500, height = 300 }) => {
           height={innerHeight}
           stroke={GRID_COLOR}
         />
-        {series.map((serie, index) => (
+        {series.map((serie, index: number) => (
           <LinePath
             key={index}
             data={serie}
