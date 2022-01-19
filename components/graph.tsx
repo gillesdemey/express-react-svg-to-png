@@ -92,16 +92,3 @@ const Graph = ({ width = 500, height = 300 }) => {
 };
 
 export default Graph;
-
-function generateTimeSeries(length) {
-  const startDateMs = Date.now();
-
-  return new Array(length).fill(1).map((_, idx) => {
-    return {
-      date: new Date(startDateMs - idx * 3600000),
-      value: 100 + Math.random() * 10,
-    };
-  });
-}
-
-export { generateTimeSeries };
