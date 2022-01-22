@@ -10,6 +10,10 @@ function createEngine() {
 }
 
 const renderFile = (filename, options, callback) => {
+  if (!callback) {
+    return renderComponentToMarkup(filename, options);
+  }
+
   renderComponentToMarkup(filename, options)
     .then((markup) => {
       callback(null, markup);
@@ -27,4 +31,4 @@ async function renderComponentToMarkup(filename, options) {
   return markup;
 }
 
-export { createEngine };
+export { createEngine, renderFile, renderComponentToMarkup };
