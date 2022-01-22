@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Group } from "@visx/group";
 import { scaleTime, scaleLinear } from "@visx/scale";
 import { curveMonotoneX } from "@visx/curve";
@@ -7,7 +9,7 @@ import { appleStock } from "@visx/mock-data";
 import { extent } from "d3-array";
 import { GridColumns, GridRows } from "@visx/grid";
 import { classicColors } from "@grafana/data";
-import { AppleStock } from '@visx/mock-data/lib/mocks/appleStock';
+import { AppleStock } from "@visx/mock-data/lib/mocks/appleStock";
 
 const margin = {
   top: 20,
@@ -19,9 +21,7 @@ const margin = {
 const GRID_COLOR = "rgba(0,0,0,0.1)";
 
 const Graph = ({ width = 500, height = 300 }) => {
-  const series = [
-    appleStock
-  ];
+  const series = [appleStock];
 
   // accessors
   const getDate = (d: AppleStock) => new Date(d.date);
@@ -46,13 +46,7 @@ const Graph = ({ width = 500, height = 300 }) => {
 
   return (
     <svg width={width} height={height}>
-      <rect
-        x={0}
-        y={0}
-        width={width}
-        height={height}
-        fill="#FFF"
-      />
+      <rect x={0} y={0} width={width} height={height} fill="#FFF" />
       <Group left={margin.left} top={margin.top}>
         <GridRows
           scale={yScale}
