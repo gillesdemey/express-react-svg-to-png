@@ -1,4 +1,7 @@
 import { transform } from "@swc/core";
+
+const TRANSPILE_CACHE = new Map()
+
 // import ts from "typescript";
 
 // somewhat slower but probably has less edge-cases
@@ -21,6 +24,12 @@ import { transform } from "@swc/core";
 // }
 
 async function transpileWithSwc(source) {
+  const cachedEntry = TRANSPILE_CACHE.get(source)
+
+  if (cachedEntry) {
+    return cachedEntry
+  }
+
   const result = await transform(source, {
     jsc: {
       target: "es2021",
@@ -45,6 +54,8 @@ async function transpileWithSwc(source) {
     sourceMaps: false,
     swcrc: false,
   });
+
+  TRANSPILE_CACHE.set(source, result.code)
 
   return result.code;
 }
